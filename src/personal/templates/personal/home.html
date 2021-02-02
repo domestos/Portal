@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <style type="text/css">
+        .my_grip{
+            border: 1px solid black;
+        }
+        .my_grip_item{
+            border: 1px solid rebeccapurple;
+        }
+    </style>
+    <div class="container">
+        <!-- flexbox   -->
+        <div class="my_grip d-flex flex-row justify-content-between">
+            <p class="my_grip_item m-auto">Item</p>
+            <p class="my_grip_item m-auto">Item</p>
+            <p class="my_grip_item m-auto">Item</p>
+            <p class="my_grip_item m-auto">Item</p>
+
+        </div>
+
+        <div class="my_grip d-flex flex-column mt-4">
+            <p class="my_grip_item m-auto"> <span class="material-icons">
+                flutter_dash
+                </span> Item</p>
+            <p class="my_grip_item m-auto">Item</p>
+            <p class="my_grip_item m-auto">Item</p>
+            <p class="my_grip_item m-auto">Item</p>
+        </div>
+    </div>
+{% endblock content %}
