@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 
 
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include 
 
 from personal.views import (
     home_screen_view
@@ -26,7 +26,8 @@ from personal.views import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home_screen_view, name='home')
+    path('', home_screen_view, name='home'),
+    path('chat/', include('chat.urls'))
 ]
 
 if settings.DEBUG:
