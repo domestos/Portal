@@ -27,7 +27,8 @@ from personal.views import (
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home_screen_view, name='home'),
-    path('chat/', include('chat.urls'))
+    path('chat/', include('chat.urls')),
+    path('ticket/', include('ticket.urls')),
 ]
 
 if settings.DEBUG:

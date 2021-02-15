@@ -3,6 +3,10 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 # Create your models here.
 
+
+class CCUsers(models.Model):
+    cc = models.ManyToManyField(User)
+     
 class Ticket (models.Model):
     PROGRESS_CHOICES = (
         ( 'not_started', 'Not started' ),
@@ -18,7 +22,13 @@ class Ticket (models.Model):
     )
     
     user = models.ForeignKey(User, on_delete=models.PROTECT)
-   
+    
+    cc = models.ManyToManyField(User,
+     related_name='cc',
+     blank=True,
+     null=True,
+    )
+
     progress = models.CharField(
         _('Progress'), 
         max_length = 20,
@@ -35,18 +45,26 @@ class Ticket (models.Model):
   
     created = models.DateTimeField(
         _('Created'), 
+        auto_now_add=True,
         blank=True, 
         help_text=_('Date this ticket was first created')
     )
    
     modified = models.DateTimeField(
         _('Modified'),
+        auto_now_add=True,
         blank=True, 
         help_text=_('Date this ticket was most recently changed.'),
     )
-  
-    description = models.TextField(
-        _('Description'),
+    
+    subject = models.CharField(
+        _('Subject'),
+        max_length = 250,
+        help_text=_('The content of the customers query.'),
+    )
+    
+    text = models.TextField(
+        _('Text'),
         blank=True,
         null=True,
         help_text=_('The content of the customers query.'),
@@ -57,7 +75,9 @@ class Ticket (models.Model):
         blank=True,
         null=True,
     )
-
+    
+    class Meta:
+        permissions = (("helpdesk_admin", "Administrators of helpdesk"),)
 
 
 # class Attachment(models.Model):
