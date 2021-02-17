@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     
     # my apps
     "bootstrap5",
+    'django_select2',
     'channels',
     'personal',
     'ticket',

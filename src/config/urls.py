@@ -29,6 +29,7 @@ urlpatterns = [
     path('', home_screen_view, name='home'),
     path('chat/', include('chat.urls')),
     path('ticket/', include('ticket.urls')),
+    path("select2/", include("django_select2.urls")),
 ]
 
 if settings.DEBUG:
