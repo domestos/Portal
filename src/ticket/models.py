@@ -3,10 +3,16 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
 # Create your models here.
 
+class TicketManager(models.Manager):
+    """ Method is used by: TicketListView """
+    def all_or_created_by(self, created_by):
+        # need add other coundithions 
+        if created_by.is_superuser:
+            return super().get_queryset().all()
+        else:
+            return super().get_queryset().filter(created_by=created_by)
 
-class CCUsers(models.Model):
-    cc = models.ManyToManyField(User)
-     
+
 class Ticket (models.Model):
     PROGRESS_CHOICES = (
         ( 'not_started', 'Not started' ),
@@ -21,7 +27,7 @@ class Ticket (models.Model):
         ('low' , 'Low'),
     )
     
-    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    created_by = models.ForeignKey(User, on_delete=models.PROTECT)
     
     cc = models.ManyToManyField(User,
      related_name='cc',
@@ -75,6 +81,8 @@ class Ticket (models.Model):
         blank=True,
         null=True,
     )
+
+    objects = TicketManager()
     
     class Meta:
         permissions = (("helpdesk_admin", "Administrators of helpdesk"),)

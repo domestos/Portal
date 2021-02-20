@@ -161,3 +161,45 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
 TEMP = os.path.join(BASE_DIR, 'media_cdn/temp')
 
 BASE_URL = 'http://127.0.0.1:8000'
+
+# URL of login form for all apps
+LOGIN_URL = 'admin:login'
+
+
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters':{
+        'myformatter':{
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        }
+    },
+    'handlers': {
+        'file': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'error.log',
+            'formatter':'myformatter'
+        },
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'INFO.log',
+             'formatter':'myformatter'
+        }
+    },
+    'loggers': {
+        'ExeptionHunter': {
+            'handlers': ['file'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        
+        'django': {
+            'handlers': ['file','console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
