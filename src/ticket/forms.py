@@ -1,5 +1,5 @@
 from django import forms
-from .models import Ticket
+from .models import Ticket, FollowUp
 
 class TicketForm(forms.ModelForm):
     due_date = forms.DateTimeField
@@ -13,3 +13,18 @@ class TicketForm(forms.ModelForm):
         #         #    'desc': forms.Textarea(attrs={'class':'textAreaInputClass', 'placeholder':'Enter desc', 'rows':5}),
 
         #        }
+
+class UpdateTicketStatusForm(forms.ModelForm):
+    class Meta:
+        model = Ticket
+        fields = ('progress','priority')
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = FollowUp
+        fields = ( 'comment',)
+
+    def save(self, *args, **kwargs):
+        print(kwargs)
+        return super().save(self, *args, **kwargs)

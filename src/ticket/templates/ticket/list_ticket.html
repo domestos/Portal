@@ -3,7 +3,7 @@
 
 {% block content %}
  {% for ticket in tickets %}
-   <a href="{% url 'view_ticket' ticket.pk %}"> {{ticket.user }} {{ticket.created }} {{ticket.subject }} {{ticket.priority }} {{ticket.progress }}  </a>  <br>
+   <a href="{% url 'detail_ticket' ticket.pk %}"> {{ticket.user }} {{ticket.created }} {{ticket.subject }} {{ticket.priority }} {{ticket.progress }}  </a>  <br>
 {% endfor %}
 
 {% endblock content %}

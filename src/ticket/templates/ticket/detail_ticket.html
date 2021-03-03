@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+   <h3>{{object.created_by}}  {{object.cc.all}} {{object.progress}} {{object.comments.all}}</h3>
+
+   <form method="post"> 
+      {% csrf_token %} 
+      {{ form.as_p }} 
+      <input type="submit" value="Save"> 
+  </form> 
+
+
+  <fieldset>
+   <legend>Answer the question</legend>
+   <form method="post">
+       {% csrf_token %}
+       {{ update_ticket_form }}
+       <input name="update_ticket" type="submit" value="Submit" />
+   </form>
+</fieldset>
+<fieldset>
+   <legend>Add a comment</legend>
+   <form method="post">
+       {% csrf_token %}
+       {{ comment_form }}
+       <input name="comment" type="submit" value="Submit" />
+   </form>
+</fieldset>
+{% endblock content %}

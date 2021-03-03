@@ -1,13 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
+from django.conf import settings
+
 # Create your models here.
 
 class TicketManager(models.Manager):
+
     """ Method is used by: TicketListView """
-    def all_or_created_by(self, created_by):
+    def all_or_created_by(self, created_by, permission_required):
         # need add other coundithions 
-        if created_by.is_superuser:
+        if created_by.is_superuser or created_by.has_perm(permission_required):
             return super().get_queryset().all()
         else:
             return super().get_queryset().filter(created_by=created_by)
@@ -86,6 +90,67 @@ class Ticket (models.Model):
     
     class Meta:
         permissions = (("helpdesk_admin", "Administrators of helpdesk"),)
+
+
+
+
+
+class FollowUp(models.Model):
+    """
+    A FollowUp is a comment and/or change to a ticket. We keep a simple
+    title, the comment entered by the user, and the new status of a ticket
+    to enable easy flagging of details on the view-ticket page.
+
+    The title is automatically generated at save-time, based on what action
+    the user took.
+
+    Tickets that aren't public are never shown to or e-mailed to the submitter,
+    although all staff can see them.
+    """
+
+    ticket = models.ForeignKey(
+        Ticket,
+        on_delete=models.CASCADE,
+        verbose_name=_('Ticket'),
+        related_name='comments'
+    )
+
+    date = models.DateTimeField(
+        _('Date'),
+        default=timezone.now
+    )
+
+    comment = models.TextField(
+        _('Comment'),
+        blank=False,
+        null=False,
+    )
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        verbose_name=_('User'),
+    )
+
+    class Meta:
+        ordering = ('date',)
+        verbose_name = _('Follow-up')
+        verbose_name_plural = _('Follow-ups')
+
+    # def __str__(self):
+    #     return '%s' % self.title
+
+    # def get_absolute_url(self):
+    #     return u"%s#followup%s" % (self.ticket.get_absolute_url(), self.id)
+
+    # def save(self, *args, **kwargs):
+    #     print(**kwargs)
+    #     # ticket = kwargs['ticket']
+    #     self.modified = timezone.now()
+    #     self.save()
+    #     super(FollowUp, self).save(*args, **kwargs)
 
 
 # class Attachment(models.Model):
