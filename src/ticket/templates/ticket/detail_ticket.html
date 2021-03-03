@@ -2,29 +2,29 @@
 {% load static %}
 
 {% block content %}
-   <h3>{{object.created_by}}  {{object.cc.all}} {{object.progress}} {{object.comments.all}}</h3>
+   <h3>{{object.created_by}} <br> {{object.cc.all}} <br>{{object.text}} <br> {{object.progress}} </h3>
+   <fieldset>
+    <legend>Edit status</legend>
+    <form method="post">
+        {% csrf_token %}
+        {{ update_ticket_form }}
+        <input name="update_ticket" type="submit" value="Submit" />
+    </form>
+ </fieldset>
+ <hr>
+   {% for comment in object.comments.all %}
+   {{comment.date}} upated by {{comment.user}}<br>
+    
+    {{comment.comment|safe}}<hr>
 
-   <form method="post"> 
-      {% csrf_token %} 
-      {{ form.as_p }} 
-      <input type="submit" value="Save"> 
-  </form> 
-
-
-  <fieldset>
-   <legend>Answer the question</legend>
-   <form method="post">
-       {% csrf_token %}
-       {{ update_ticket_form }}
-       <input name="update_ticket" type="submit" value="Submit" />
-   </form>
-</fieldset>
+   {% endfor %}
+ 
 <fieldset>
    <legend>Add a comment</legend>
    <form method="post">
        {% csrf_token %}
        {{ comment_form }}
-       <input name="comment" type="submit" value="Submit" />
+       <input name="comment_ticket" type="submit" value="Submit" />
    </form>
 </fieldset>
 {% endblock content %}

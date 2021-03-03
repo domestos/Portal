@@ -113,11 +113,30 @@ class TicketDetailView(LoginRequiredMixin,OwnerMembersPermissionsMixin,  UpdateV
 
             if bound_update_ticket_form.is_valid():
                     # Here, save the response
+                    # check if form was edited (if bound form has values)
+                    if (bound_update_ticket_form.changed_data):
+                        msg = ''
+                        for field in bound_update_ticket_form.changed_data:
+                            old_value = self.get_object().__getattribute__(field)
+                            new_value = bound_update_ticket_form.cleaned_data[field]
+                            msg += f"<br> <b>{field}</b> from {old_value} to {new_value}"
+                            print ( bound_update_ticket_form.cleaned_data[field]) 
+                            print(msg)
+                        comment = FollowUp()
+                        comment.ticket=self.get_object()
+                        comment.comment = msg
+                        comment.user = self.request.user
+                        comment.save()        
+
+                    # for item  in self.get_object().__dict__.items():
+                    #     print(item)
+
+
                     bound_update_ticket_form.save()
             else:
                 ctxt['update_ticket_form'] = update_ticket_form
 
-        elif 'comment' in request.POST:
+        elif 'comment_ticket' in request.POST:
 
             bound_comment_form = CommentForm(request.POST)
 
