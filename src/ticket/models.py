@@ -36,7 +36,6 @@ class Ticket (models.Model):
     cc = models.ManyToManyField(User,
      related_name='cc',
      blank=True,
-     null=True,
     )
 
     progress = models.CharField(
@@ -91,6 +90,10 @@ class Ticket (models.Model):
     class Meta:
         permissions = (("helpdesk_admin", "Administrators of helpdesk"),)
 
+    def get_absolute_url(self):
+        return f"/ticket/{self.pk}/"
+        # from django.urls import reverse
+        # return reverse('detail_ticket', kwargs={'pk': self.pk})
 
 
 
@@ -107,7 +110,13 @@ class FollowUp(models.Model):
     Tickets that aren't public are never shown to or e-mailed to the submitter,
     although all staff can see them.
     """
-
+    title = models.CharField(
+        _('Title'),
+        max_length=200,
+        blank=True,
+        null=True,
+    )
+    
     ticket = models.ForeignKey(
         Ticket,
         on_delete=models.CASCADE,
@@ -145,12 +154,11 @@ class FollowUp(models.Model):
     # def get_absolute_url(self):
     #     return u"%s#followup%s" % (self.ticket.get_absolute_url(), self.id)
 
-    # def save(self, *args, **kwargs):
-    #     print(**kwargs)
-    #     # ticket = kwargs['ticket']
-    #     self.modified = timezone.now()
-    #     self.save()
-    #     super(FollowUp, self).save(*args, **kwargs)
+    def save_and_send_email(self, *args, **kwargs):
+        print(args)
+        ticket = kwargs['ticket']
+        self.modified = timezone.now()
+        super(FollowUp, self).save(*args, **kwargs)
 
 
 # class Attachment(models.Model):

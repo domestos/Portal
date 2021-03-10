@@ -26,5 +26,5 @@ class CommentForm(forms.ModelForm):
         fields = ( 'comment',)
 
     def save(self, *args, **kwargs):
-        print(kwargs)
-        return super().save(self, *args, **kwargs)
+            print(kwargs['request'])
+            return super().save(self, *args, **kwargs)

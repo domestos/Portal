@@ -12,17 +12,17 @@ class CreatedByPermissionsMixin:
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
 
-class OwnerOrMembersPermissionsMixin(CreatedByPermissionsMixin):
+class OwnerMembersPermissionsMixin(CreatedByPermissionsMixin):
     def has_permissions(self):
         return self.request.user in self.get_object().cc.all() or self.get_object().created_by == self.request.user or self.request.user.has_perm(self.permission_required)
 
 #====================================================================================
 
 #================== CUSTOM PERMISSION ===============================================
-class OwnerMembersPermissionsMixin(PermissionRequiredMixin):
+class OwnerOrMembersPermissionsMixin(PermissionRequiredMixin):
     """
-    Allow access for owner, members of cc and users who have permission 'ticket.helpdesk_admin'
-    WARNING: this class works only with DetailView (where exists method get_object() )
+    Allow access for users: owner, members of cc and users who have permission 'ticket.helpdesk_admin'
+    WARNING: this class works only with DetailView, UpdateView (where exists method get_object() )
     """    
     def has_permission(self):
         perms = self.get_permission_required()

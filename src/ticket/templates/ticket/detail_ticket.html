@@ -14,7 +14,7 @@
  <hr>
    {% for comment in object.comments.all %}
    {{comment.date}} upated by {{comment.user}}<br>
-    
+   <h3>{{comment.title|safe}}:</h3>
     {{comment.comment|safe}}<hr>
 
    {% endfor %}
