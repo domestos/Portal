@@ -2,7 +2,7 @@
 {% load static %}
 {% load render_table from django_tables2 %}
 
-{% block content %}
+{% block page-wrapper %}
 <!-- {% render_table object_list %} -->
 
 <!-- 
@@ -28,7 +28,7 @@
           <!-- ============================================================== -->
           <!-- End Container fluid  -->
           <!-- ============================================================== -->
-{% endblock content %}
+{% endblock page-wrapper %}
 
 {% block scripts %}
   {{ block.super }}

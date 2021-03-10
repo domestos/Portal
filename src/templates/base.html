@@ -1,48 +1,122 @@
-{% load static %}
 <!DOCTYPE html>
-<html lang=en>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
-       
-        <!-- Google Material design icons -->
-        <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
-        
+<html dir="ltr" lang="en">
+{% load static %}
 
-        <title>IT Portal</title>
-    </head>
-    <body>   
-
-        {% include 'snippets/base_css.html' %}
-        {% include 'snippets/base_js.html' %}
-
-
-        <style type="text/css">
-            .main{
-                min-height: 100vh;
-                height: 100%;
-            }
-        </style>
-       
-        <!-- Header -->
-        {% include 'snippets/header.html' %}
-        
-        <!-- Content -->
-        <div class="main">
-            {% block content %}
-
-            {% endblock content %}
-        </div>
-        
-        <!-- Footer -->
-        {% include 'snippets/footer.html' %}
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords"
+        content="wrappixel, admin dashboard, html css dashboard, web dashboard, bootstrap 5 admin, bootstrap 5, css3 dashboard, bootstrap 5 dashboard, Matrix lite admin bootstrap 5 dashboard, frontend, responsive bootstrap 5 admin template, Matrix admin lite design, Matrix admin lite dashboard bootstrap 5 dashboard template">
+    <meta name="description"
+        content="Matrix Admin Lite Free Version is powerful and clean admin dashboard template, inpired from Bootstrap Framework">
+    <meta name="robots" content="noindex,nofollow">
+    {% block title %}
+    <title>Matrix Admin Lite Free Versions Template by WrapPixel</title>
+    {% endblock title %}
     
-        {% block scripts %}
-        <!-- Scripts -->
-        <script src="{% static 'bootstrap/js/jquery.min.js' %}" ></script>   
-        <script src="{% static 'bootstrap/js/bootstrap.bundle.js' %}" ></script>    
-        {% endblock scripts %}      
-    </body>
+    {% block styles %}
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'assets/images/favicon.png' %}">
+    <!-- Custom CSS -->
+   
+    <link href="{% static 'assets/libs/flot/css/float-chart.css' %}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link href="{% static 'dist/css/style.min.css' %}" rel="stylesheet">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js' %}"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js' %}"></script>
+<![endif]-->
+    {% endblock styles %}
+
+</head>
+
+<body>
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+
+        <!-- ============================================================== -->
+        <!-- Topbar header - style you can find in pages.scss -->
+        <!-- ============================================================== -->
+        {% block topbar %}
+            {% include 'includes/topbar.html'%}
+        {% endblock topbar %}
+        <!-- ============================================================== -->
+        <!-- End Topbar header -->
+        <!-- ============================================================== -->
+    
+        
+        <!-- ============================================================== -->
+        <!-- Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+        {% block left-sidebar %}
+               {% include 'includes/left-sidebar.html'%}
+        {% endblock left-sidebar %}
+       <!-- ============================================================== -->
+        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
+        <!-- ============================================================== -->
+ 
+
+
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            {% block page-wrapper %}
+                {% include 'includes/page-breadcrumb.html'%}
+                {% include 'includes/page-wrapper.html'%}
+            {% endblock page-wrapper %}
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Main Wrapper -->
+    <!-- ============================================================== -->
+
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    
+    <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js' %}"></script>
+    <script src="{% static 'assets/extra-libs/sparkline/sparkline.js' %}"></script>
+    <!--Wave Effects -->
+    <script src="{% static 'dist/js/waves.js' %}"></script>
+    <!--Menu sidebar -->
+    <script src="{% static 'dist/js/sidebarmenu.js' %}"></script>
+    <!--Custom JavaScript -->
+    <script src="{% static 'dist/js/custom.min.js' %}"></script>
+    <!--This page JavaScript -->
+    <!-- <script src="../../dist/js/pages/dashboards/dashboard1.js' %}"></script> -->
+    <!-- Charts js Files -->
+    <script src="{% static 'assets/libs/flot/excanvas.js' %}"></script>
+    <script src="{% static 'assets/libs/flot/jquery.flot.js' %}"></script>
+    <script src="{% static 'assets/libs/flot/jquery.flot.pie.js' %}"></script>
+    <script src="{% static 'assets/libs/flot/jquery.flot.time.js' %}"></script>
+    <script src="{% static 'assets/libs/flot/jquery.flot.stack.js' %}"></script>
+    <script src="{% static 'assets/libs/flot/jquery.flot.crosshair.js' %}"></script>
+    <script src="{% static 'assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js' %}"></script>
+    <script src="{% static 'dist/js/pages/chart/chart-page-init.js' %}"></script>
+
+</body>
+
 </html>

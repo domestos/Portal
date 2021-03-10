@@ -1,145 +1,130 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load bootstrap5 %}
 
-{% block content %}
-   <h3>{{object.created_by}} <br> {{object.cc.all}} <br>{{object.text}} <br> {{object.progress}} </h3>
-   <fieldset>
-    <legend>Edit status</legend>
-    <form method="post">
-        {% csrf_token %}
-        {{ update_ticket_form }}
-        <input name="update_ticket" type="submit" value="Submit" />
-    </form>
- </fieldset>
- <hr>
-   {% for comment in object.comments.all %}
-   {{comment.date}} upated by {{comment.user}}<br>
-   <h3>{{comment.title|safe}}:</h3>
-    {{comment.comment|safe}}<hr>
+{% block page-wrapper %}
 
-   {% endfor %}
- 
-<fieldset>
-   <legend>Add a comment</legend>
-   <form method="post">
-       {% csrf_token %}
-       {{ comment_form }}
-       <input name="comment_ticket" type="submit" value="Submit" />
-   </form>
-</fieldset>
-
-<!-- ============================================================== -->
+            <!-- ============================================================== -->
             <!-- Container fluid  -->
             <!-- ============================================================== -->
             <div class="container-fluid">
                <!-- ============================================================== -->
-               <!-- Start Page Content -->
+               <!-- Ticket Detail -->
                <!-- ============================================================== -->
                <div class="row">
                    <div class="col-md-12">
                        <div class="card card-body printableArea">
-                           <h3><b>INVOICE</b> <span class="pull-right">#5669626</span></h3>
+                           <h3><b>Ticket</b> <span class="pull-right">#{{object.id}}</span></h3>
                            <hr>
                            <div class="row">
                                <div class="col-md-12">
                                    <div class="pull-left">
                                        <address>
-                                           <h3> &nbsp;<b class="text-danger">Material Pro Admin</b></h3>
-                                           <p class="text-muted ms-1">E 104, Dharti-2,
+                                           <h3> &nbsp;<b class="text-info">From:</b> {{object.created_by}}</h3>
+                                           <h3> &nbsp;<b class="text-info">CC:</b>
+                                             {% for cc in object.cc.all %} 
+                                                {{cc.username}};
+                                             {% endfor %}
+                                             </h3>
+                                           <!-- <p class="text-muted ms-1">E 104, Dharti-2,
                                                <br /> Nr' Viswakarma Temple,
                                                <br /> Talaja Road,
-                                               <br /> Bhavnagar - 364002</p>
+                                               <br /> Bhavnagar - 364002</p> -->
                                        </address>
                                    </div>
+                                   <div>
+                                      <h3>Subject: {{object.subject}}</h3> 
+                                      <br>
+                                       <p>{{object.text}}</p>
+                                   </div> 
                                    <div class="pull-right text-end">
                                        <address>
-                                           <h3>To,</h3>
+                                           <!-- <h3>To,</h3>
                                            <h4 class="font-bold">Gaala & Sons,</h4>
                                            <p class="text-muted ms-4">E 104, Dharti-2,
                                                <br /> Nr' Viswakarma Temple,
                                                <br /> Talaja Road,
-                                               <br /> Bhavnagar - 364002</p>
-                                           <p class="mt-4"><b>Invoice Date :</b> <i class="fa fa-calendar"></i> 23rd
-                                               Jan 2018</p>
-                                           <p><b>Due Date :</b> <i class="fa fa-calendar"></i> 25th Jan 2018</p>
+                                               <br /> Bhavnagar - 364002</p> -->
+                                           <p class="mt-4"><b>Created Date:</b> <i class="fa fa-calendar"></i>{{object.created|date:"M d, Y" }}</p>
+                                           <p><b>Modified:</b> <i class="fa fa-calendar"></i>{{object.modified|date:"M d, Y" }}</p> 
+                                           <p><b>Due Date :</b> <i class="fa fa-calendar"></i>{{object.due_date|date:"M d, Y" }}</p>
                                        </address>
                                    </div>
                                </div>
+
                                <div class="col-md-12">
-                                   <div class="table-responsive mt-5" style="clear: both;">
-                                       <table class="table table-hover">
-                                           <thead>
-                                               <tr>
-                                                   <th class="text-center">#</th>
-                                                   <th>Description</th>
-                                                   <th class="text-end">Quantity</th>
-                                                   <th class="text-end">Unit Cost</th>
-                                                   <th class="text-end">Total</th>
-                                               </tr>
-                                           </thead>
-                                           <tbody>
-                                               <tr>
-                                                   <td class="text-center">1</td>
-                                                   <td>Milk Powder</td>
-                                                   <td class="text-end">2 </td>
-                                                   <td class="text-end"> $24 </td>
-                                                   <td class="text-end"> $48 </td>
-                                               </tr>
-                                               <tr>
-                                                   <td class="text-center">2</td>
-                                                   <td>Air Conditioner</td>
-                                                   <td class="text-end"> 3 </td>
-                                                   <td class="text-end"> $500 </td>
-                                                   <td class="text-end"> $1500 </td>
-                                               </tr>
-                                               <tr>
-                                                   <td class="text-center">3</td>
-                                                   <td>RC Cars</td>
-                                                   <td class="text-end"> 20 </td>
-                                                   <td class="text-end"> %600 </td>
-                                                   <td class="text-end"> $12000 </td>
-                                               </tr>
-                                               <tr>
-                                                   <td class="text-center">4</td>
-                                                   <td>Down Coat</td>
-                                                   <td class="text-end"> 60 </td>
-                                                   <td class="text-end">$5 </td>
-                                                   <td class="text-end"> $300 </td>
-                                               </tr>
-                                           </tbody>
-                                       </table>
-                                   </div>
+                                   
                                </div>
                                <div class="col-md-12">
-                                   <div class="pull-right mt-4 text-end">
-                                       <p>Sub - Total amount: $13,848</p>
-                                       <p>vat (10%) : $138 </p>
-                                       <hr>
-                                       <h3><b>Total :</b> $13,986</h3>
-                                   </div>
-                                   <div class="clearfix"></div>
                                    <hr>
-                                   <div class="text-end">
-                                       <button class="btn btn-danger text-white" type="submit"> Proceed to payment </button>
-                                   </div>
+                                   <form method="post">
+                                       {% csrf_token %}
+                                       {% bootstrap_form update_ticket_form %}  
+                                       <div class="text-end">
+                                          <input  class="btn btn-warning text-white"  name="update_ticket" value="Update" type="submit"/>
+                                       </div>
+                                  </form>
+                                  
                                </div>
                            </div>
+
+                        
+                           
                        </div>
                    </div>
                </div>
+               <!-- ============================================================== -->
+               <!-- End Ticket Detail  -->
+               <!-- ============================================================== -->
 
                <!-- ============================================================== -->
-               <!-- End PAge Content -->
+               <!-- Comments and Status Updates-->
                <!-- ============================================================== -->
+               <div class="card">
+                  <div class="card-body">
+                     <!-- <h3><b>  Comment / Updates</b> <span class="pull-right">  Comment / Updates</span></h3>    -->
+                     <h3 class="card-title"> Comment / Updates </h3>
+                      <div class="todo-widget scrollable ps-container ps-theme-default ps-active-y" style="height:450px;" data-ps-id="f5c46fde-9a2e-c4ee-6496-c08812a7846d">
+                          <ul class="list-task todo-list list-group mb-0" data-role="tasklist">
+                           {% for comment in object.comments.all %}
+                              <li class="list-group-item todo-item" data-role="task">
+                                  <div class="form-check">
+                                          <p class="font-medium p-0">{{comment.title|safe}}</p>
+                                          <span class="fw-normal"> {{comment.comment|safe}}.</span> 
+                                          <span class="float-end"> 
+                                             <b class="badge rounded-pill bg-info">{{comment.date}} </b>
+                                             <img class="rounded-circle" width="40" src="https://avatars.githubusercontent.com/u/4637470?s=460&u=24fea690cece144715b91a559099406958ea5f69&v=4" alt="{{comment.user}}" data-toggle="tooltip" data-placement="top" title="{{comment.user}}" data-original-title="Steave" data-bs-original-title=""> 
+                                          </span>
+                                  </div>
+                                  <!-- <ul class="list-style-none assignedto float-end">
+                                      <li class="assignee"><img class="rounded-circle " width="40" src="{% static 'assets/images/users/1.jpg' %}" alt="user" data-toggle="tooltip" data-placement="top" title="" data-original-title="Steave" data-bs-original-title=""></li>
+                                    </ul> -->
+                              </li>
+                           {% endfor %}
+                          </ul>
+                      <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; height: 450px; right: 3px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 442px;"></div></div></div>
+                  </div>
+              </div>
                <!-- ============================================================== -->
-               <!-- Right sidebar -->
+               <!-- End Comments and Status Updates-->
                <!-- ============================================================== -->
-               <!-- .right-sidebar -->
-               <!-- ============================================================== -->
-               <!-- End Right sidebar -->
-               <!-- ============================================================== -->
+
+               <div class="row">
+                  <div class="col-md-12">
+                      <div class="card card-body printableArea">
+                        <form method="post">
+                           {% csrf_token %}
+                           {% bootstrap_form comment_form %}  
+                           <div class="text-end">
+                              <input  class="btn btn-info text-white"  name="comment_ticket" value="Submit" type="submit"/>
+                           </div>
+                       </form>
+                      </div>
+                  </div>
+               </div>
+           
            </div>
            <!-- ============================================================== -->
            <!-- End Container fluid  -->
            <!-- ============================================================== -->
-{% endblock content %}
+{% endblock page-wrapper %}

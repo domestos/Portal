@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang=en>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+       
+        <!-- Google Material design icons -->
+        <link href="https://fonts.googleapis.com/css2?family=Material+Icons" rel="stylesheet">
+        
+
+        <title>IT Portal</title>
+    </head>
+    <body>   
+
+        {% include 'snippets/base_css.html' %}
+        {% include 'snippets/base_js.html' %}
+
+
+        <style type="text/css">
+            .main{
+                min-height: 100vh;
+                height: 100%;
+            }
+        </style>
+       
+        <!-- Header -->
+        {% include 'snippets/header.html' %}
+        
+        <!-- Content -->
+        <div class="main">
+            {% block content %}
+
+            {% endblock content %}
+        </div>
+        
+        <!-- Footer -->
+        {% include 'snippets/footer.html' %}
+    
+        {% block scripts %}
+        <!-- Scripts -->
+        <script src="{% static 'bootstrap/js/jquery.min.js' %}" ></script>   
+        <script src="{% static 'bootstrap/js/bootstrap.bundle.js' %}" ></script>    
+        {% endblock scripts %}      
+    </body>
+</html>
