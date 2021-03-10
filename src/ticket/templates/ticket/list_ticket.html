@@ -1,9 +1,40 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load render_table from django_tables2 %}
 
 {% block content %}
+<!-- {% render_table object_list %} -->
+
+<!-- 
  {% for ticket in tickets %}
    <a href="{% url 'detail_ticket' ticket.pk %}"> {{ticket.user }} {{ticket.created }} {{ticket.subject }} {{ticket.priority }} {{ticket.progress }}  </a>  <br>
-{% endfor %}
+{% endfor %} -->
 
+   <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title mb-0">Static Table</h5>
+                        </div>
+                       {% render_table table %}
+                    </div>
+                </div>
+            </div>
+           </div>
+          <!-- ============================================================== -->
+          <!-- End Container fluid  -->
+          <!-- ============================================================== -->
 {% endblock content %}
+
+{% block scripts %}
+  {{ block.super }}
+<script
+type="text/javascript"
+src="{% static "django_tables2_column_shifter/js/django_tables2_column_shifter.min.js" %}">
+</script>
+
+{% endblock scripts %}

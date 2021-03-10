@@ -3,6 +3,7 @@ from django.core.mail import EmailMessage
 from django.core.mail import EmailMultiAlternatives
 from django.conf import settings
 from django.template.loader import render_to_string
+from django.utils.translation import ugettext as _
 
 # def _get_full_path_to_ticket(request):
 #     return f"{request.scheme}://{request.get_host()}{request.path}"
@@ -58,7 +59,7 @@ class BaseSendMail:
         return cc 
 
     def _get_created_by_email(self):
-        return self.ticket.created_by.email
+        return  self.ticket.created_by.email
 
     def _get_subject(self):
         return f"HelpDesk Ticket #{self.ticket.id}: {self.ticket.subject} "
@@ -78,7 +79,7 @@ class BaseSendMail:
             self._get_subject(),
             text_body,
             settings.EMAIL_HOST_USER, 
-            self._get_created_by_email(), 
+            [self._get_created_by_email(),],
             cc=self._get_cc_emails()
             )
         email.attach_alternative(html_body, "text/html")
@@ -96,3 +97,20 @@ class SendEmailComment(BaseSendMail):
 class SendEmailNewTicket(BaseSendMail):
     html_email_template ='ticket/email_templates/html_ticket_created.html'
     text_email_template ='ticket/email_templates/text_ticket_created.html'
+
+    # def _create_message (subject, text_body, html_body, from_email, email_to):
+    #     if not text_body and not html_body:
+    #         raise ValueError(_('Either text_body or html_body should be not None'))
+
+    #     return {'subject':subject, 'body': html_body, 'from_email':from_email. 'to':email_to}
+
+    # def sendEmail(self):
+    #     connection = mail.get_connection()
+    #     connection.open()
+    #     cc_email = EmailMultiAlternatives(
+    #         self._get_subject(),
+    #         text_body,
+    #         settings.EMAIL_HOST_USER, 
+    #         self._get_created_by_email(), 
+    #         cc=self._get_cc_emails()
+    #         )

@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # my apps
+    'django_tables2',
+    'django_tables2_column_shifter',
     "bootstrap5",
     'channels',
     'personal',

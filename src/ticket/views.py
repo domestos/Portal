@@ -1,38 +1,43 @@
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic.edit import CreateView
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.views.generic.edit import FormView 
 from django.views import View
-from .forms import UpdateTicketStatusForm , CommentForm
-from .service_mixin import MultipleForms  
-
 from django.urls import reverse_lazy
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseRedirect
-from .forms import TicketForm
+# Models 
 from .models import Ticket, FollowUp
+# Forms 
+from .forms import TicketForm,UpdateTicketStatusForm , CommentForm
+from .service_mixin import MultipleForms  
+# Permissions 
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+# Custom Permissions 
 from .permissions import OwnerOrMembersPermissionsMixin, OwnerMembersPermissionsMixin
+# eamil
 from .email import SendEmailNewTicket
+# Table 
+from django_tables2 import RequestConfig
+from django_tables2 import SingleTableView
+from .tables import PersonTable
 # Create your views here.
 
 
 #============================= LIST VIEW  =======================================================
-class TicketListView(LoginRequiredMixin, ListView):
+class TicketListView(LoginRequiredMixin, SingleTableView):
     """ Get all tickets for superuser and own tickets for the user """
     model = Ticket
     template_name='ticket/list_ticket.html'
     permission_required = 'ticket.helpdesk_admin'
     request_user = None
+    table_class = PersonTable
     
-    def get_queryset(self):
-        self.request_user = self.request.user
-        return super().get_queryset()
 
     def get_context_data(self, *args, **kwargs):
         context_object_name = super().get_context_data( *args, **kwargs)
-        context_object_name['tickets'] = self.model.objects.all_or_created_by(self.request_user, self.permission_required)
+        context_object_name['tickets'] = self.model.objects.all_or_created_by(self.request.user, self.permission_required)
         return context_object_name
 
 

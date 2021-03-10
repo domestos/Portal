@@ -2,7 +2,7 @@ from django import forms
 from .models import Ticket, FollowUp
 
 class TicketForm(forms.ModelForm):
-    due_date = forms.DateTimeField
+    due_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date',  'class':"form-control"}))
     class Meta:
         model = Ticket
         fields = ( 'priority', 'cc', 'subject', 'text', 'due_date')
